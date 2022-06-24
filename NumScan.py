@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests, os, sys
+import requests, os
 from termcolor import colored
 os.system('color')
 print(colored("""
@@ -12,10 +12,9 @@ print(colored("""
 """, 'red')),print(colored("@366f36", 'red'))
 print("[ Only Saudi Numbers ]")
 print("[ Don't Write +966 example : 558832003 ]")
-usr = input(colored("Number >> ", 'cyan'))
 def start(usr):
     try:
-        url = "http://146.148.112.105/caller/index.php/UserManagement/search_number?number="+usr+"&country_code=SA"
+        url = f"http://146.148.112.105/caller/index.php/UserManagement/search_number?number={usr}&country_code=SA"
         r = requests.get(url)
         num = str(r.json()['result'][0]['number'])
         name = str(r.json()['result'][0]['name'])
@@ -29,6 +28,30 @@ def start(usr):
         input("Press Any Key to Close ...")
     except:
         print(colored("[?]", 'red'),"Error Try Again")
+def check(usr):
+    try:
+        url = f"http://146.148.112.105/caller/index.php/UserManagement/search_number?number={usr}&country_code=SA"
+        r = requests.get(url)
+        num = str(r.json()['result'][0]['number'])
+        name = str(r.json()['result'][0]['name'])
+        print(colored("[!]", 'green'), num + " :",name)
+    except:
+        print(colored("[?]", 'red'), f"Error Try Again >> {usr}" )
+def listed():
+    word = input("Wordlist : ")
+    print(colored("---- Coded By 6Virus ----", 'red'))
+    with open(word, 'r') as usr:
+        for tags in usr:
+            tag = tags.strip()
+            check(tag)
+def options():
+    print(colored("[1] One Number", "cyan"))
+    print(colored("[2] List of Numbers", "cyan"))
+    opt = input("Option : ")
+    if opt == "1":
+        usr = input(colored("Number >> ", 'cyan'))
+        start(usr)
+    elif opt == "2":
+        listed()
 
-
-start(usr)
+options()
